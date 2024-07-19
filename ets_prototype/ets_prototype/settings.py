@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'auth_app',
+    'trip_management_app',
+    'realtime_tracking_app',
+    'bill_report_app',
+    'notification_app',
+    
 ]
 
 MIDDLEWARE = [
@@ -121,3 +129,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+########################### User defined
+
+AUTH_USER_MODEL = 'auth_app.CustomUser'
+
+
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH', 'C:\\Program Files\\GDAL\\gdal.dll')
+
+
