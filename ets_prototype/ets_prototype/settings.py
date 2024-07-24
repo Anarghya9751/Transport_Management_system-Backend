@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'realtime_tracking_app',
     'bill_report_app',
     'notification_app',
+    'rest_framework',
     
 ]
 
@@ -138,4 +139,5 @@ AUTH_USER_MODEL = 'auth_app.CustomUser'
 
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH', 'C:\\Program Files\\GDAL\\gdal.dll')
 
+APPEND_SLASH=True
 

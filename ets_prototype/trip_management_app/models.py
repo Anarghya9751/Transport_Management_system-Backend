@@ -54,7 +54,7 @@ class Trip(models.Model):
 
 class TransportRequest(models.Model):
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    # vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     request_date = models.DateTimeField(auto_now_add=True)
     scheduled_date = models.DateTimeField()
     type = models.CharField(max_length=20, choices=(("pickup", "Pickup"), ("dropoff", "Dropoff")))
