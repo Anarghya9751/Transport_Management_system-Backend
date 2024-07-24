@@ -8,3 +8,6 @@ class GpsData(models.Model):
     longitude = models.FloatField()
     speed = models.FloatField()
     time = models.DateTimeField()
+
+    def __str__(self):
+        return f"{self.vehicle_id} - {self.time}"
