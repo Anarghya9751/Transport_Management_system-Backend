@@ -3,21 +3,18 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.http import JsonResponse
 from auth_app.models import *
-from .permissions import IsEmployee, IsDriver, IsAdmin, IsVendor, IsCompany
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from .serializers import UserSerializer
-from .permissions import IsAdmin, IsEmployee,IsDriver,IsVendor,IsCompany,IsCommander
+from .permissions import IsEmployee,IsDriver,IsAdmin,IsVendor,IsCompany,IsCommander
 
 
 @api_view(['POST'])
-#@permission_classes([AllowAny])
+@permission_classes([AllowAny])
 class UserListView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
@@ -58,21 +55,16 @@ def get_transport_status(request):
     elif request.method == 'POST':
         return JsonResponse({"message": "POST transport status"}, status=201)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated, IsDriver])
-def driver_assigned_trips_detail(request, pk):
-    if request.method == 'GET':
-        
-        return Response({"message": f"GET assigned trip {pk}"}, status=status.HTTP_200_OK)
-    elif request.method == 'PUT':
-        
-        return Response({"message": f"PUT assigned trip {pk}"}, status=status.HTTP_200_OK)
-    elif request.method == 'DELETE':
-    
-        return Response({"message": f"DELETE assigned trip {pk}"}, status=status.HTTP_200_OK)
-    
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated, IsDriver])
+@permission_classes([IsAuthenticated,IsDriver])
+def driver_assigned_trips_detail(request):
+    if request.method == 'GET':
+        return Response({"message": "GET assigned trip "}, status=status.HTTP_200_OK)
+    
+    elif request.method == 'POST':
+        return Response({"message": "POST assigned trip "}, status=status.HTTP_201_CREATED)
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated,IsDriver])
 def call_employee(request):
     if request.method == 'GET':
         return JsonResponse({"message": "GET driver request"}, status=200)
@@ -80,7 +72,7 @@ def call_employee(request):
          return JsonResponse({"message": "POST driver request"}, status=200)
     
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated, IsDriver])
+@permission_classes([IsAuthenticated,IsDriver])
 def start_trip(request):
     if request.method == 'GET':
         return JsonResponse({"message": "GET start trip"}, status=200)
@@ -88,7 +80,7 @@ def start_trip(request):
         return JsonResponse({"message": "POST start trip"}, status=201)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsDriver])
+@permission_classes([IsAuthenticated,IsDriver])
 def end_trip(request):
     if request.method == 'GET':
         return JsonResponse({"message": "GET end trip"}, status=200)
@@ -193,7 +185,7 @@ def Company_get_bills(request):
         return JsonResponse({"message": "POST company_get bills"}, status=201)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsVendor])
+@permission_classes([IsAuthenticated, IsCompany])
 def Company_generate_reports(request):
     if request.method == 'GET':
         return JsonResponse({"message": "GET generate_company reports"}, status=200)

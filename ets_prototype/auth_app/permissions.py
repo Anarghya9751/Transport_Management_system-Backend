@@ -10,7 +10,7 @@ class IsEmployee(permissions.BasePermission):
 
 class IsDriver(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role == 'Driver'
+        return request.user and request.user.role == 'driver'
 
 class IsVendor(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -22,7 +22,7 @@ class IsCompany(permissions.BasePermission):
     
 class IsCommander(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role == 'Commander'
+        return request.user and request.user.role == 'commander'
 
 
 
