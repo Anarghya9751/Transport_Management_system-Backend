@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'realtime_tracking_app',
     'bill_report_app',
     'notification_app',
+    'rest_framework',
+    
     
 ]
 
