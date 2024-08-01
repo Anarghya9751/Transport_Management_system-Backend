@@ -20,8 +20,15 @@ class Bill(models.Model):
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     driver_id = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
     amount = models.FloatField()
-    bill_date = models.DateTimeField(auto_now_add=True)
+    bill_date = models.DateTimeField(null=True)
+    kilometers=models.FloatField(default=0)
+    rate=models.DecimalField(default=0,max_digits=10,decimal_places=2)
+    report_type = models.CharField(max_length=50, choices=(("weekly", "weekly"), ("monthly", "Monthly"), ("yearly", "Yearly")), default="daily")
+    company_report_type = models.CharField(max_length=50, choices=(("summary", "Summary"), ("detailed", "Detailed")), default="summary")
+    access_level = models.CharField(max_length=50, choices=(("admin", "Admin"), ("company", "Company"), ("vendor", "Vendor")), default="admin")
+    report_type_value = models.FloatField(default=0.0)
     
+
     def __str__(self):
         return self.bill_id
     
