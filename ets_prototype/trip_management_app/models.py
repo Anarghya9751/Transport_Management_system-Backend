@@ -1,5 +1,5 @@
 from django.db import models
-from auth_app.models import DriverProfile, EmployeeProfile, CustomUser
+from auth_app.models import DriverProfile, EmployeeProfile, CustomUser, VendorProfile
 
 from utils.useful_functions import generate_id
 
@@ -27,6 +27,7 @@ class Vehicle(models.Model):
     
 class Route(models.Model):
     route_id = models.CharField(max_length=20, default=generate_route_id)
+    vendor_id = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, null=True, blank=True)
     source_latitude = models.FloatField()
     source_longitude = models.FloatField()
     destination_latitude = models.FloatField()
