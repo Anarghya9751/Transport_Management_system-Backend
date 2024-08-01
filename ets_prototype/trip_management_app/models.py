@@ -52,6 +52,12 @@ class Trip(models.Model):
     start_longitude = models.FloatField(null=True, blank=True)
     end_latitude = models.FloatField(null=True, blank=True)
     end_longitude = models.FloatField(null=True, blank=True)
+    pin = models.IntegerField(default=0)
+    start_meter_img = models.ImageField(upload_to='meter_images/', null=True, blank=True)
+    end_meter_img = models.ImageField(upload_to='meter_images/', null=True, blank=True)
+
+
+
     
 
     
