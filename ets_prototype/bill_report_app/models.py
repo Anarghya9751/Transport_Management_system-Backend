@@ -16,11 +16,14 @@ def generate_report_id():
 # Create your models here.
 class Bill(models.Model):
     bill_id = models.CharField(max_length=20, default=generate_bill_id)
-    trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE)
+   # trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE)
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     driver_id = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
     amount = models.FloatField()
-    bill_date = models.DateTimeField(auto_now_add=True)
+    bill_date = models.DateTimeField(null=True)
+    company = models.CharField(max_length=255 ,null=True)
+    vendor = models.CharField(max_length=255 ,null= True)
+    report_type = models.CharField(max_length=50 ,null=True)
     
     def __str__(self):
         return self.bill_id
