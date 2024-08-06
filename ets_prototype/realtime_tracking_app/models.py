@@ -11,3 +11,26 @@ class GpsData(models.Model):
 
     def __str__(self):
         return f"{self.vehicle_id} - {self.time}"
+    
+    
+
+{
+    bills: [
+        {
+            "bill_no": 1,
+            "amt": 4567,
+            
+        },
+        {
+            "bill_no": 1,
+            "amt": 4567,
+            
+        }
+    ]
+}
+
+report-type-value  # report type
+"2024-2025" # yearly
+"2022" # monthly
+"jan-apr" # weekly
+

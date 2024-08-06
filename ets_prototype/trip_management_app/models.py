@@ -1,5 +1,5 @@
 from django.db import models
-from auth_app.models import DriverProfile, EmployeeProfile, CustomUser
+from auth_app.models import DriverProfile, EmployeeProfile, CustomUser, VendorProfile, CompanyProfile
 
 from utils.useful_functions import generate_id
 
@@ -20,6 +20,7 @@ class Vehicle(models.Model):
     capacity = models.IntegerField()
     status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")))
     last_maintenance_date = models.DateField()
+    vendor = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, null=True, blank=True, default=None)
     
     def __str__(self):
         return self.Vehicle_id
@@ -34,6 +35,7 @@ class Route(models.Model):
     distance = models.FloatField()
     duration = models.FloatField()
     status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")))
+    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True, blank=True, default=None)
     
     
     def __str__(self):
@@ -42,9 +44,9 @@ class Route(models.Model):
     
 class Trip(models.Model):
     trip_id = models.CharField(max_length=20, default=generate_trip_id)
-    route_id = models.ForeignKey(Route, on_delete=models.CASCADE)
-    vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    driver_id = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    driver = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.CharField(max_length=20, default="pending", choices=(("pending", "Pending"), ("scheduled", "Scheduled"), ("completed", "Completed"), ("cancelled", "Cancelled")))
@@ -52,6 +54,7 @@ class Trip(models.Model):
     start_longitude = models.FloatField(null=True, blank=True)
     end_latitude = models.FloatField(null=True, blank=True)
     end_longitude = models.FloatField(null=True, blank=True)
+    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True, blank=True, default=None)
     
 
     
@@ -72,6 +75,7 @@ class TransportRequest(models.Model):
         ('completed', 'Completed')
     ])
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True, blank=True)
+    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     def __str__(self):
         return f"{self.employee} - {self.status} on {self.request_date}"
@@ -99,6 +103,7 @@ class OtherRequest(models.Model):
     end_latitude = models.FloatField()
     end_longitude = models.FloatField()
     days = models.IntegerField()
+    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     def __str__(self):
         return f"{self.guest_name} - {self.status} on {self.request_date}"
