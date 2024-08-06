@@ -3,10 +3,27 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Trip
-from .serializers import TripSerializer
+from .serializers import TripSerializer,UserSerializer
 from django.utils import timezone
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.views import APIView
+from .models import CustomUser
+from .permissions import IsDriver
+
 
 @api_view(['POST'])
+@permission_classes([IsDriver])
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated, IsDriver]
+
+    def get(self, request):
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,IsDriver])
 def start_trip(request):
     trip_id = request.data.get('trip_id')
     pin = request.data.get('pin')
@@ -32,6 +49,7 @@ def start_trip(request):
         return Response({"error": "Trip not found"}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated,IsDriver])
 def end_trip(request):
     trip_id = request.data.get('trip_id')
     meter_img = request.FILES.get('meter_img')
