@@ -4,8 +4,27 @@ from django.db.models import Sum, Count
 from datetime import datetime, timedelta
 from .models import Bill
 from .serializers import BillSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.views import APIView
+from auth_app.models import CustomUser
+from .permissions import IsAdmin
+from .serializers import UserSerializer
+from rest_framework.permissions import AllowAny
+
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get(self, request):
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,IsAdmin])
 def generate_report(request):
     payload = request.data
 
