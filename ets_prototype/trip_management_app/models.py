@@ -34,7 +34,7 @@ class Route(models.Model):
     distance = models.FloatField()
     duration = models.FloatField()
     status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")))
-    
+     
     
     def __str__(self):
         return self.route_id
