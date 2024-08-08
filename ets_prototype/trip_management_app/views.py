@@ -1,12 +1,26 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
-from auth_app.models import EmployeeProfile
+from auth_app.models import EmployeeProfile,CustomUser
 from trip_management_app.models import TransportRequest
 from .serializers import EmployeeSerializer, TransportRequestSerializer
+from rest_framework.decorators import api_view, permission_classes
+from .permissions import IsEmployee
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
 
+@api_view(['POST'])
+@permission_classes([IsEmployee])
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated, IsEmployee]
+
+    def get(self, request):
+        users = CustomUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,IsEmployee])
 def employee_list(request):
     if request.method == 'GET':
         employees = EmployeeProfile.objects.all()
@@ -20,6 +34,7 @@ def employee_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated,IsEmployee])
 def transport_request_list(request):
     if request.method == 'GET':
         transport_requests = TransportRequest.objects.all()
@@ -33,6 +48,7 @@ def transport_request_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated,IsEmployee])
 def employee_detail(request, pk):
     try:
         employee = EmployeeProfile.objects.get(pk=pk)
@@ -53,6 +69,7 @@ def employee_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated,IsEmployee])
 def transport_request_detail(request, pk):
     try:
         transport_request = TransportRequest.objects.get(pk=pk)
