@@ -1,13 +1,17 @@
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from auth_app.models import VendorProfile, AdminProfile
 from .models import Route
 from bill_report_app.models import Contract
 from django.shortcuts import get_object_or_404
 from .serializers import ContractSerializer
+from .permissions import IsAdmin
+from rest_framework.permissions import IsAuthenticated
+
 
 @api_view(['PUT'])
+@permission_classes([ IsAuthenticated, IsAdmin])
 def assign_route(request):
     route_id = request.data.get('route_id')
     vendor_id = request.data.get('vendor_id')
@@ -22,6 +26,7 @@ def assign_route(request):
     return Response({'status': 'Route assigned successfully'})
 
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated, IsAdmin])
 def assign_contract(request):
     contract_id = request.data.get('contract_id')
     vendor_id = request.data.get('vendor_id')
