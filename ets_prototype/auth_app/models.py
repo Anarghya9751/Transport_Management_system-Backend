@@ -6,6 +6,7 @@ import random
 import string
 
 from utils.useful_functions import generate_id
+from .managers import ConfigurationManager
 
 
 def generate_admin_id():
@@ -142,6 +143,8 @@ class EmployeeProfile(models.Model):
 class Configuration(models.Model):
     key = models.CharField(max_length=100, unique=True)
     value = models.CharField(max_length=255)
+    
+    objects = ConfigurationManager()
 
     def __str__(self):
         return f"{self.key}: {self.value}"

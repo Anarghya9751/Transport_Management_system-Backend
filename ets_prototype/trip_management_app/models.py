@@ -42,9 +42,9 @@ class Route(models.Model):
     
 class Trip(models.Model):
     trip_id = models.CharField(max_length=20, default=generate_trip_id)
-    route_id = models.ForeignKey(Route, on_delete=models.CASCADE)
-    vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    driver_id = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    driver = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.CharField(max_length=20, default="pending", choices=(("pending", "Pending"), ("scheduled", "Scheduled"), ("completed", "Completed"), ("cancelled", "Cancelled")))
@@ -89,8 +89,8 @@ class OtherRequest(models.Model):
     source_longitude = models.FloatField()
     destination_latitude = models.FloatField()
     destination_longitude = models.FloatField()
-    vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    driver_id = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    driver = models.ForeignKey(DriverProfile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.CharField(max_length=20, default="pending", choices=(("pending", "Pending"), ("scheduled", "Scheduled"), ("completed", "Completed"), ("cancelled", "Cancelled")))
