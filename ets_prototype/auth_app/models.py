@@ -5,11 +5,12 @@ from datetime import datetime
 import random
 import string
 
-
 from utils.useful_functions import generate_id
+
 
 def generate_admin_id():
     return "AD" + generate_id()
+
 
 def generate_commander_id():
     return "CM" + generate_id()
@@ -17,10 +18,16 @@ def generate_commander_id():
 
 def generate_vendor_id():
     return "VE" + generate_id()
+
+
 def generate_company_id():
     return "CO" + generate_id()
+
+
 def generate_driver_id():
     return "DR" + generate_id()
+
+
 def generate_employee_id():
     return "EM" + generate_id()
 
@@ -40,9 +47,9 @@ class CustomUser(AbstractUser):
 class AdminProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     admin_id = models.CharField(max_length=20, default=generate_admin_id)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    aadhar_number = models.IntegerField()
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    aadhar_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         """
@@ -54,15 +61,19 @@ class AdminProfile(models.Model):
             str: The username of the user associated with the current instance.
         """
         return self.admin_id
-    
+
 
 class CommanderProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     commander_id = models.CharField(max_length=20, default=generate_commander_id)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("inactive", "Inactive")))
-    aadhar_number = models.IntegerField()
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    status = models.CharField(
+        max_length=20,
+        default="active",
+        choices=(("active", "Active"), ("inactive", "Inactive")),
+    )
+    aadhar_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.commander_id
@@ -71,35 +82,45 @@ class CommanderProfile(models.Model):
 class VendorProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     vendor_id = models.CharField(max_length=20, default=generate_vendor_id)
-    contact_person = models.CharField(max_length=50)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")))
-    aadhar_number = models.IntegerField()
+    contact_person = models.CharField(max_length=50, null=True, blank=True)
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    status = models.CharField(
+        max_length=20,
+        default="active",
+        choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")),
+    )
+    aadhar_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.vendor_id
 
+
 class CompanyProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     company_id = models.CharField(max_length=20, default=generate_company_id)
-    contact_person = models.CharField(max_length=50)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    aadhar_number = models.IntegerField()
-    
+    contact_person = models.CharField(max_length=50, null=True, blank=True)
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    aadhar_number = models.IntegerField(null=True, blank=True)
+
     def __str__(self):
         return self.company_id
+
 
 class DriverProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     driver_id = models.CharField(max_length=20, default=generate_driver_id)
-    license_number = models.CharField(max_length=20)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    status = models.CharField(max_length=20, default="active", choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")))
-    aadhar_number = models.IntegerField()
-    
+    license_number = models.CharField(max_length=20, null=True, blank=True)
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    status = models.CharField(
+        max_length=20,
+        default="active",
+        choices=(("active", "Active"), ("busy", "Busy"), ("inactive", "Inactive")),
+    )
+    aadhar_number = models.IntegerField(null=True, blank=True)
+
     def __str__(self):
         return self.driver_id
 
@@ -107,11 +128,11 @@ class DriverProfile(models.Model):
 class EmployeeProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     employee_id = models.CharField(max_length=20, default=generate_employee_id)
-    contact_number = models.IntegerField()
-    address = models.TextField()
-    aadhar_number = models.IntegerField()
-    location_latitude = models.FloatField()
-    location_longitude = models.FloatField()
-    
+    contact_number = models.IntegerField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    aadhar_number = models.IntegerField(null=True, blank=True)
+    location_latitude = models.FloatField(null=True, blank=True)
+    location_longitude = models.FloatField(null=True, blank=True)
+
     def __str__(self):
         return self.employee_id
